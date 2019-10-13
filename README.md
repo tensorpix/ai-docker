@@ -1,4 +1,4 @@
-# Styria.ai Research Docker
+# Velebit AI Research Docker
 
 Docker is used for deploying research ready environment with pre-installed
 libraries such as Tensorflow, PyTorch, scikit, numpy, etc.
@@ -13,6 +13,5 @@ libraries such as Tensorflow, PyTorch, scikit, numpy, etc.
 `sudo -E su datascience`
 
 ## Host notes
-
 * `nvidia-docker` and the nvidia driver are dependencies and must be installed on host machine
 * main user is the `datascience` user, other users must be in the `datascience` group

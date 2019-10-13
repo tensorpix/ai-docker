@@ -1,11 +1,10 @@
-# Styria.AI research docker image
 # Python 3.7
 # Ubuntu 18.04, CUDA 10.0, Tensorflow, PyTorch
 
 # Note: system Python is still 3.5, and running scripts requires explicit
 # python3.7 some_script.py
 
-# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/devel-gpu.Dockerfile
+# https://github.com/orboardXensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/devel-gpu.Dockerfile
 
 ARG UBUNTU_VERSION=18.04
 
@@ -128,8 +127,9 @@ RUN python3.7 -m pip --no-cache-dir install --upgrade \
     numexpr numpy pandas pep8 psycopg2 pyflakes pylint \
     python-dateutil pyyaml qtconsole rope_py3k scikit-image \
     scikit-learn scipy sip sphinx SQLAlchemy tables  \
-    tensorboard torch torchvision tensorboardX \
-    opencv-contrib-python-headless pretrainedmodels tensorflow-gpu voluptuous
+    tensorboard==1.14.0 torch==1.2.0 torchvision==0.4.0 \
+    opencv-contrib-python-headless pretrainedmodels tensorflow-gpu==1.14.0 \
+    voluptuous
 
 # use pillow-simd with AVX2 support
 RUN pip3 uninstall -y pillow && CC="cc -mavx2" pip3 install -U --force-reinstall pillow-simd
@@ -138,17 +138,3 @@ RUN pip3 uninstall -y pillow && CC="cc -mavx2" pip3 install -U --force-reinstall
 COPY install_oh-my-zsh.sh /usr/bin/
 COPY setuser.sh /bin/
 ENTRYPOINT /bin/setuser.sh
-
-#################################### NOTES ######################################################
-### building example:
-# docker build -t research:2.3.0 .
-
-### create the container for the current user:
-# nvidia-docker run --name my_tf_container --ipc=host -ti -h tf_docker -v /data:/data -v /shared:/shared -p 10000-10100:10000-10100 -e NAME=$USER -e ID=$UID -e DS_CODE_PATH=/some_path/some_code_dir research:2.3.0
-
-### (optional) switching to datascience user inside container:
-# sudo -E su datascience
-
-### host notes:
-# nvidia-docker and nvidia driver installed on host
-# main user datascience, other users in group datascience
