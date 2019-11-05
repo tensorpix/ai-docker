@@ -7,7 +7,7 @@ libraries such as Tensorflow, PyTorch, scikit, numpy, etc.
 `docker build -t research:<version-number>`
 
 ## Creating a container for the current user example
-`nvidia-docker run --name container_name --ipc=host -ti -h tf_docker -v /data:/data -v /shared:/shared -p 10000-10100:10000-10100 -e NAME=$USER -e ID=$UID -e GID=user_group_id -e CODE_PATH=/some_path/some_code_dir -e DS_ID=1002 research:1.0.0`
+`nvidia-docker run --name container_name --ipc=host -ti -h research_docker -v /data:/data -v /shared:/shared -p 10000-10100:10000-10100 -e NAME=$USER -e ID=$UID -e GID=user_group_id -e CODE_PATH=/some_path/some_code_dir -e DS_ID=1002 research:1.1.0`
 
 
 ## Other notes
