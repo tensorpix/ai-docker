@@ -12,7 +12,7 @@ libraries such as Tensorflow, PyTorch, scikit, numpy, etc.
 
 ## Other notes
 * `nvidia-docker` and nvidia driver are dependencies that must be installed on the host machine
-* DS_ID should correspond to some common user group id for shared access (optional)
-* CODE_PATH is the base path for code repos to be added to PYTHONPATH (optional)
-* uses ZSH by -e USE_ZSH=some_value (optional)
-* check setuser.sh for more details
+* `DS_ID` should correspond to some common user group id for shared access (optional)
+* `CODE_PATH` is the base path for code repos to be added to PYTHONPATH (optional)
+* uses ZSH by `-e USE_ZSH=some_value` (optional)
+* check `setuser.sh` for more details
