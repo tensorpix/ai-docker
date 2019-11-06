@@ -118,21 +118,13 @@ RUN add-apt-repository ppa:deadsnakes/ppa && apt-get update && \
 RUN curl https://bootstrap.pypa.io/get-pip.py -o /usr/src/get-pip.py && \
     python3.7 /usr/src/get-pip.py
 
+COPY python_packages.txt /usr/local/etc/
+
 # Python packages
-RUN python3.7 -m pip --no-cache-dir install --upgrade \
-    beautifulsoup4 bottleneck colormath commentjson cython \
-    decorator flake8 flask flask-paginate ftfy future gensim h5py imutils ipython \
-    iterative-stratification jedi jupyter keras_applications keras_preprocessing lxml \
-    mahotas matplotlib mock networkx nltk nose \
-    numexpr numpy pandas pep8 psycopg2 pyflakes pylint \
-    python-dateutil pyyaml qtconsole rope_py3k scikit-image \
-    scikit-learn scipy sip sphinx SQLAlchemy tables  \
-    tensorboard==1.14.0 torch==1.2.0 torchvision==0.4.0 \
-    opencv-contrib-python-headless pretrainedmodels tensorflow-gpu==1.14.0 \
-    voluptuous
+RUN python3.7 -m pip install -r /usr/local/etc/python_packages.txt
 
 # use pillow-simd with AVX2 support
-RUN pip3 uninstall -y pillow && CC="cc -mavx2" pip3 install -U --force-reinstall pillow-simd
+RUN pip3 uninstall -y pillow && CC="cc -mavx2" pip3 install -U --force-reinstall Pillow-SIMD==6.0.0.post0
 
 # create user at runtime
 COPY install_oh-my-zsh.sh /usr/bin/
