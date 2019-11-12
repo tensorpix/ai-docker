@@ -1,69 +1,5 @@
-# Python 3.7
-# Ubuntu 18.04, CUDA 10.0, Tensorflow, PyTorch
+FROM 10.1-cudnn7-runtime-ubuntu18.04
 
-# Note: system Python is still 3.5, and running scripts requires explicit
-# python3.7 some_script.py
-
-# https://github.com/orboardXensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/devel-gpu.Dockerfile
-
-ARG UBUNTU_VERSION=18.04
-
-ARG ARCH=
-ARG CUDA=10.0
-FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}-base-ubuntu${UBUNTU_VERSION} as base
-# ARCH and CUDA are specified again because the FROM directive resets ARGs
-# (but their default value is retained if set previously)
-ARG ARCH
-ARG CUDA
-ARG CUDNN=7.4.1.5-1
-ARG CUDNN_MAJOR_VERSION=7
-ARG LIB_DIR_PREFIX=x86_64
-ARG TRT_VERSION=1804
-
-# Needed for string substitution
-SHELL ["/bin/bash", "-c"]
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential \
-        cuda-command-line-tools-${CUDA/./-} \
-        cuda-cublas-dev-${CUDA/./-} \
-        cuda-cudart-dev-${CUDA/./-} \
-        cuda-cufft-dev-${CUDA/./-} \
-        cuda-curand-dev-${CUDA/./-} \
-        cuda-cusolver-dev-${CUDA/./-} \
-        cuda-cusparse-dev-${CUDA/./-} \
-        libcudnn7=${CUDNN}+cuda${CUDA} \
-        libcudnn7-dev=${CUDNN}+cuda${CUDA} \
-        libcurl3-dev \
-        libfreetype6-dev \
-        libhdf5-serial-dev \
-        libzmq3-dev \
-        pkg-config \
-        rsync \
-        software-properties-common \
-        unzip \
-        zip \
-        zlib1g-dev \
-        wget \
-        git \
-        && \
-    find /usr/local/cuda-${CUDA}/lib64/ -type f -name 'lib*_static.a' -not -name 'libcudart_static.a' -delete && \
-    rm /usr/lib/${LIB_DIR_PREFIX}-linux-gnu/libcudnn_static_v7.a
-
-RUN [[ "${ARCH}" = "ppc64le" ]] || { apt-get update && \
-        apt-get install nvinfer-runtime-trt-repo-ubuntu${TRT_VERSION}-5.0.2-ga-cuda${CUDA} \
-        && apt-get update \
-        && apt-get install -y --no-install-recommends \
-            libnvinfer5=5.0.2-1+cuda${CUDA} \
-            libnvinfer-dev=5.0.2-1+cuda${CUDA} \
-        && apt-get clean \
-&& rm -rf /var/lib/apt/lists/*; }
-
-# For CUDA profiling, TensorFlow requires CUPTI.
-# make sure to keep cuda paths when switching users
-RUN echo "PATH="/usr/local/nvidia/bin:/usr/local/cuda/bin:$PATH"" >> /etc/environment && \
-    echo "LD_LIBRARY_PATH="/usr/local/cuda/extras/CUPTI/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"" >> /etc/environment
-
-# some extras
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         byobu \
         checkinstall \
@@ -74,29 +10,42 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         libcupti-dev \
         libc6-dev \
         libgdbm-dev \
+        libncurses5-dev \
         libncursesw5-dev \
         libopenblas-dev \
         libpq-dev \
         libreadline-gplv2-dev \
+        libreadline-dev \
         libssl-dev \
         libsqlite3-dev \
+        libffi-dev \
+        liblzma-dev \
+        llvm \
         locales \
         nano \
         htop \
         iotop \
         gfortran \
         g++ \
+        git \
         imagemagick \
         openjdk-8-jdk \
         python-profiler \
+        python-openssl \
         ssh \
         sudo \
         swig \
         tk-dev \
         tmux \
         tzdata \
+        xz-utils \
         vim \
         zsh \
+        wget \
+        zlib1g-dev \
+        rsync \
+        unzip \
+        zip \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -110,23 +59,12 @@ ENV LANG=en_US.UTF-8 \
 # timezone
 RUN echo Europe/Zagreb > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
-# install Python 3.7 and pip
-# https://docs.python-guide.org/starting/install3/linux/
-
-RUN add-apt-repository ppa:deadsnakes/ppa && apt-get update && \
-    apt-get install -y python3.7 python3.7-dev
-RUN curl https://bootstrap.pypa.io/get-pip.py -o /usr/src/get-pip.py && \
-    python3.7 /usr/src/get-pip.py
-
-COPY python_packages.txt /usr/local/etc/
-
-# Python packages
-RUN python3.7 -m pip install -r /usr/local/etc/python_packages.txt
-
-# use pillow-simd with AVX2 support
-RUN pip3 uninstall -y pillow && CC="cc -mavx2" pip3 install -U --force-reinstall Pillow-SIMD==6.0.0.post0
+# Install pip, pyenv and pipenv
+RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && \
+    python3 /tmp/get-pip.py
+RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+RUN sudo pip install pipenv
 
 # create user at runtime
-COPY install_oh-my-zsh.sh /usr/bin/
 COPY setuser.sh /bin/
 ENTRYPOINT /bin/setuser.sh

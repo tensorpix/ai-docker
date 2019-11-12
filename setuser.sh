@@ -2,7 +2,6 @@
 
 set -u
 
-
 # Setup user if this is the first run
 CONTAINER_ALREADY_STARTED="/etc/container_already_started"
 if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
@@ -14,10 +13,7 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 
     SHELL_RC_FILE=".bashrc"
     if [[ -v USE_ZSH ]]; then
-        SHELL_RC_FILE=".zshrc"
-        chmod 0777 /usr/bin/install_oh-my-zsh.sh
-        sudo -u $NAME -H sh -c /usr/bin/install_oh-my-zsh.sh
-        sed -i 's/ZSH_THEME=.*/ZSH_THEME=gentoo/' /home/$NAME/$SHELL_RC_FILE
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     else
         # bash git completion
         echo "source /usr/share/bash-completion/completions/git" >> /home/$NAME/$SHELL_RC_FILE
