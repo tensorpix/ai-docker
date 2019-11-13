@@ -1,4 +1,4 @@
-FROM 10.1-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         byobu \
@@ -14,7 +14,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         libncursesw5-dev \
         libopenblas-dev \
         libpq-dev \
-        libreadline-gplv2-dev \
         libreadline-dev \
         libssl-dev \
         libsqlite3-dev \
@@ -45,6 +44,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         zlib1g-dev \
         rsync \
         unzip \
+        python3-distutils \
         zip \
         && \
     apt-get clean && \
@@ -59,12 +59,12 @@ ENV LANG=en_US.UTF-8 \
 # timezone
 RUN echo Europe/Zagreb > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 
-# Install pip, pyenv and pipenv
+# Install pip and pipenv
 RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && \
-    python3 /tmp/get-pip.py
-RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-RUN sudo pip install pipenv
+    python3 /tmp/get-pip.py && \ 
+    sudo pip install pipenv
 
 # create user at runtime
 COPY setuser.sh /bin/
 ENTRYPOINT /bin/setuser.sh
+
