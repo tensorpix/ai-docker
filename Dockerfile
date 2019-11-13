@@ -18,8 +18,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         libssl-dev \
         libsqlite3-dev \
         libffi-dev \
-        liblzma-dev \
 	libcairo2-dev \
+        libgirepository1.0-dev \
+        libjpeg-dev \
+        liblzma-dev \
         llvm \
         locales \
         nano \
@@ -32,26 +34,23 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         openjdk-8-jdk \
         python-profiler \
         python-openssl \
+        python3-dev \
+        python-apt \
+        python3-distutils \
+        rsync \
         ssh \
         sudo \
         swig \
         tk-dev \
         tmux \
         tzdata \
-        xz-utils \
-        vim \
-        zsh \
-        wget \
-        zlib1g-dev \
-        rsync \
         unzip \
-        python3-distutils \
-	libcairo2-dev \
-        python3-dev \
-        libgirepository1.0-dev \
-        libjpeg-dev \
-        python-apt \
+        vim \
+        xz-utils \
+        wget \
         zip \
+        zsh \
+        zlib1g-dev \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
