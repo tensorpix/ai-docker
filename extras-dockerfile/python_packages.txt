@@ -62,7 +62,6 @@ kiwisolver==1.1.0
 lark-parser==0.7.8
 lazy-object-proxy==1.4.3
 lxml==4.4.1
-mahotas==1.4.8
 Markdown==3.1.1
 MarkupSafe==1.1.1
 matplotlib==3.1.1
@@ -83,6 +82,7 @@ oauthlib==3.1.0
 opencv-contrib-python-headless==4.1.1.26
 opt-einsum==3.1.0
 packaging==19.2
+mahotas==1.4.8
 pandas==0.25.3
 pandocfilters==1.4.2
 parso==0.5.1
@@ -101,11 +101,10 @@ pyasn1-modules==0.2.7
 pycodestyle==2.5.0
 pyflakes==2.1.1
 Pygments==2.4.2
-pygobject==3.26.1
+pygobject
 pylint==2.4.3
 pyparsing==2.4.2
 pyrsistent==0.15.5
-python-apt==1.6.4
 python-dateutil==2.8.1
 pytz==2019.3
 PyWavelets==1.1.1

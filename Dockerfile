@@ -19,6 +19,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         libsqlite3-dev \
         libffi-dev \
         liblzma-dev \
+	libcairo2-dev \
         llvm \
         locales \
         nano \
@@ -45,6 +46,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         rsync \
         unzip \
         python3-distutils \
+	libcairo2-dev \
+        python3-dev \
+        libgirepository1.0-dev \
+        libjpeg-dev \
+        python-apt \
         zip \
         && \
     apt-get clean && \
