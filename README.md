@@ -8,7 +8,10 @@ The base `Dockerfile` is located in the root directory and it does not install e
 `docker build -t "<image-name>:<version-number>" .`
 
 ## Creating a container for the current user example
-`nvidia-docker run --name container_name --ipc=host -ti -h research_docker -v /data:/data -v /shared:/shared -p 10000-10100:10000-10100 -e NAME=$USER -e ID=$UID -e GID=user_group_id -e CODE_PATH=/some_path/some_code_dir -e DS_ID=<datascience_id> <image-name>:<version-number>`
+`docker run --gpus all --name container_name --ipc=host -ti -h research_docker -v /data:/data -v /shared:/shared -p 10000-10100:10000-10100 -e NAME=$USER -e ID=$UID -e GID=user_group_id -e CODE_PATH=/some_path/some_code_dir -e DS_ID=<datascience_id> <image-name>:<version-number>`
+
+**WARNING**
+This command requires Docker version >=19.0. As of 19.0, Docker supports GPU containers thus making the `nvidia-docker` deprecated.
 
 
 ## Other notes
