@@ -1,2 +1,2 @@
-base:1.2.0
-extra:1.0.0
+base:1.2.1
+extra:1.2.1

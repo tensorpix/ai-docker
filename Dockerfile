@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         byobu \

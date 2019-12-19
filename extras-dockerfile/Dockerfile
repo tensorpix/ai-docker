@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/velebit/research/docker/base:1.2.0
+FROM registry.gitlab.com/velebit/research/docker/base:1.2.1
 
 COPY python_packages.txt /etc/
 
