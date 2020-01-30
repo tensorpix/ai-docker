@@ -49,7 +49,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         xz-utils \
         wget \
         zip \
-        zsh \
         zlib1g-dev \
         && \
     apt-get clean && \
