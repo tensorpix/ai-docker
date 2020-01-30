@@ -67,7 +67,7 @@ RUN echo Europe/Zagreb > /etc/timezone && dpkg-reconfigure --frontend noninterac
 # Install pip and pipenv
 RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && \
     python3 /tmp/get-pip.py && \ 
-    sudo pip install pipenv flake8
+    sudo pip install virtualenvwrapper flake8
 
 # create user at runtime
 COPY setuser.sh /bin/
