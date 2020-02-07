@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         byobu \
@@ -49,7 +49,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         xz-utils \
         wget \
         zip \
-        zsh \
         zlib1g-dev \
         && \
     apt-get clean && \
@@ -67,7 +66,7 @@ RUN echo Europe/Zagreb > /etc/timezone && dpkg-reconfigure --frontend noninterac
 # Install pip and pipenv
 RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && \
     python3 /tmp/get-pip.py && \ 
-    sudo pip install pipenv
+    sudo pip install virtualenvwrapper flake8
 
 # create user at runtime
 COPY setuser.sh /bin/
