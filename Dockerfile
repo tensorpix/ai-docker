@@ -5,6 +5,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         checkinstall \
         cmake \
         curl \
+        ffmpeg \
         less \
         libbz2-dev \
         libcupti-dev \
