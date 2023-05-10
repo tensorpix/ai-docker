@@ -1,4 +1,4 @@
-# Velebit AI Research Docker
+# Aimages Research Docker
 
 Docker is used for deploying research ready environment with pre-installed environment (CUDA, cudNN, virtualenv...) for data science work.
 
