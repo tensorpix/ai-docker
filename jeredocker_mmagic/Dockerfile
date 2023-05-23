@@ -56,5 +56,5 @@ RUN pip install -r requirements.txt && \
 #but there's no need to run this every time with setuser.sh
 RUN sudo chown -R :1004 /home/ && \
     echo './bin/setuser.sh' >> ~/.bashrc
-
+WORKDIR /
 ENTRYPOINT /bin/setuser.sh
