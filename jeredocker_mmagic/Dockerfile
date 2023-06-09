@@ -36,12 +36,16 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
 COPY setuser.sh /bin/
 
 RUN pip install --upgrade pip && \
-    pip install configparser mediapipe
+    pip install configparser mediapipe ipywidgets juypter
+
+# ipywidgets so tqdm can work in jupyter out of the box
 
 #mim and mmcv +mmengine different layers bcs my sanity is fragile
 RUN sudo pip3 install openmim
 
-RUN sudo mim install 'mmcv>=2.0.0' && \
+
+#ovi rc1 je za torch2.0 ja bi reka iksdee
+RUN sudo mim install 'mmcv>=2.0.0rc1' && \
     sudo mim install 'mmengine' 
 
 #rather build mmagic from source this shit brokenzo

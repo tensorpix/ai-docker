@@ -59,7 +59,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
 RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && \
     python3 /tmp/get-pip.py && \
     pip install --upgrade pip && \
-    sudo pip install virtualenvwrapper flake8 \
+    pip install virtualenvwrapper flake8 \
     pip install jupyterlab
     #INSTALLATION OF PYTHON LIBRARIES SHOULD BE DONE IN A VIRUTAL ENVIRONMENT!!!!
     #pip install torch torchvision jupyter jupyterlab pytorch-ignite
