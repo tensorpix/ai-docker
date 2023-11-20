@@ -21,7 +21,7 @@ this is my personal goto docker run command, you can change it to your liking. I
 ## Opening a new shell
 this is for opening mulitple shells in the same container and not messing up the permissions. rwx permissions should work as intended here with the user:group -> user is your user and group is aimages(1004). userid and groupid are set in the docker run command above. as ID and DS_ID respectively.
 
-`docker exec -it $(whoami)-torchtest bash`
+`docker exec -it $(whoami)-research bash`
 
 ## Jupyter lab command
 * don't ever ever run a jupyter lab without a password
