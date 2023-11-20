@@ -16,7 +16,7 @@ In case it is not, position yourself in the folder with the Dockerfile and setus
 ## Docker run command
 this is my personal goto docker run command, you can change it to your liking. I mount 3 different folder from the host machine: code, data, experiments and set the environment variables for the user and group id. Also i forward the port 10123 for jupyter lab.
 
-`docker run -it -p 10123:10123 --runtime=nvidia --name=$(whoami)-torchtest --gpus all --ipc=host --ulimit memlock=-1 -v ~/data:/home/jeronim/data -v ~/experiments:/home/jeronim/experiments -v ~/code:/home/jeronim/code -e NAME=$USER -e ID=$UID -e GID=1001 -e DS_ID=1004 ubuntu20_cuda12.0_cudnn8`
+`docker run -it -p 6006:6006 -p 10123:10123 --runtime=nvidia --name=$(whoami)-research --gpus all --ipc=host --ulimit memlock=-1 -v /data:/data -v ~/experiments:/home/jeronim/experiments -v ~/code:/home/jeronim/code -e NAME=$USER -e ID=$UID -e GID=1001 -e DS_ID=1004 ubuntu20_cuda12.0_cudnn8`
 
 ## Opening a new shell
 this is for opening mulitple shells in the same container and not messing up the permissions. rwx permissions should work as intended here with the user:group -> user is your user and group is aimages(1004). userid and groupid are set in the docker run command above. as ID and DS_ID respectively.
@@ -33,3 +33,7 @@ browse your jupyter on local machine at: localhost:10123
 #TODO: venv stuff - i think works
 
 #TODO: buildaj cuda image iz source za tocno onu arhitekturu/cuda compute koja nan triba https://gitlab.com/nvidia/container-images/cuda idk di san to cita
+
+## Tensorboard command
+* be mindful of the sizes of your tensorboard experiments, they can grow quite big if you're not careful about your logging frequencies
+  `  `
