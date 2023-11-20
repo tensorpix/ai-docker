@@ -36,4 +36,4 @@ browse your jupyter on local machine at: localhost:10123
 
 ## Tensorboard command
 * be mindful of the sizes of your tensorboard experiments, they can grow quite big if you're not careful about your logging frequencies
-  `  `
+ ` tensorboard --logdir skala_manje_dugi_exp/ --port 10123 --bind_all `
