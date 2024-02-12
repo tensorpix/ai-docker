@@ -1,10 +1,10 @@
 #!/bin/bash
-
 set -u
 
 # Setup user if this is the first run
 CONTAINER_ALREADY_STARTED="/etc/container_already_started"
-USER_HOME=/home/$NAME
+USER_HOME="/home/$NAME"
+PYENV_DIR="$USER_HOME/.pyenv"
 
 if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 	groupadd --gid $GID $NAME
@@ -13,37 +13,23 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 	echo "$NAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$NAME
 	chmod 0440 /etc/sudoers.d/$NAME
 
-	SHELL_CFG=$USER_HOME/.shell_cfg.bash
-
-	echo 'source /usr/share/bash-completion/completions/git' >> $SHELL_CFG
-
 	# optionally set a common group
 	if [[ -v DS_ID ]]; then
-		groupadd --gid $DS_ID "velebit"
-		adduser $NAME "velebit"
-		echo "User $NAME added to the velebit group with ID $DS_ID"
+		groupadd --gid $DS_ID "tensorpix"
+		adduser $NAME "tensorpix"
+		echo "User $NAME added to the tensorpix group with ID $DS_ID"
 	fi
 
 	# Install pyenv if it doesn't exist in the home folder
-	PYENV_DIR="$USER_HOME/.pyenv"
 	if [ -d "$PYENV_DIR" ]; then
 		echo "Directory $PYENV_DIR already exists, skipping pyenv installation."
 	else
 		su $NAME -c "curl https://pyenv.run | bash"
-		echo "export PATH=$PYENV_DIR/bin:$PATH" >> $SHELL_CFG
-		echo 'eval "$(pyenv init -)"' >> $SHELL_CFG
-		echo 'eval "$(pyenv virtualenv-init -)"' >> $SHELL_CFG
+		echo "export PYENV_ROOT=\"${PYENV_DIR}\"" >> $USER_HOME/.bashrc
+		echo "command -v pyenv >/dev/null || export PATH=\"$PYENV_DIR/bin:$PATH\"" >> $USER_HOME/.bashrc
+		echo 'eval "$(pyenv init -)"' >> $USER_HOME/.bashrc
 		echo "Installed pyenv to $PYENV_DIR"
 	fi
-
-	# Setup virtualenvwrapper config
-	echo "VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> $SHELL_CFG
-	echo "export WORKON_HOME=$USER_HOME/.virtualenvs" >> $SHELL_CFG
-	echo "export PROJECT_HOME=$USER_HOME/Devel" >> $SHELL_CFG
-	echo "source /usr/local/bin/virtualenvwrapper.sh" >> $SHELL_CFG
-
-	# Source shell config file from the .bashrc
-	echo "source $SHELL_CFG" >> $USER_HOME/.bashrc
 
 	# mark first container run
 	touch $CONTAINER_ALREADY_STARTED

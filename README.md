@@ -1,22 +1,41 @@
-# Aimages Research Docker
+# TensorPix Research Docker
 
-Docker is used for deploying research ready environment with pre-installed environment (CUDA, cudNN, virtualenv...) for data science work.
+## ssh command
 
-## Build command example
+`ssh -p 141 -L 10123:localhost:10123 -E sshdump user@IP`
 
-`docker build -t "<image-name>:<version-number>" .`
+- port 141
+- this port (10123) is forwarded for jupyter lab
+- dumps all error msgs in to sshdump (error3 connection refused was getting spammed in the terminal bcs of the port forwarding idk idc)
 
-## Creating a container for the current user example
+## Building the docker image
 
-`docker run --gpus all --name <container_name> --ipc=host -ti -h <host-name> -v <host-dir>:<docker-dir> -p <host-start>-<host-end>:<docker-start>-<docker-end> -e NAME=$USER -e ID=$UID -e GID=<user_group_id> -e DS_ID=<datascience_id> <image-name>:<version-number>`
+In case it is not, position yourself in the folder with the Dockerfile and setuser.sh and run:
+`docker build -t <image-name>:<tag> .`
 
-**WARNING**
-This command requires Docker version >=19.03. As of 19.03, Docker supports GPU containers thus making the `nvidia-docker` deprecated.
-You still need to install the `nvidia-container-toolkit` following the instructions [here](https://github.com/NVIDIA/nvidia-docker).
+## Docker run command
 
+this is my personal goto docker run command, you can change it to your liking. I mount 3 different folder from the host machine: code, data, experiments and set the environment variables for the user and group id. Also i forward the port 10123 for jupyter lab.
 
-## Other notes
+`docker run -it -p 6006:6006 -p 10123:10123 --name=$(whoami)-research --gpus all --ipc=host --ulimit memlock=-1 -v /data:/data -v ~/experiments:/home/jeronim/experiments -v ~/code:/home/jeronim/code -e NAME=$USER -e ID=$UID -e GID=1001 -e DS_ID=1004 <image-name>:<tag>`
 
-* All shell configuration commands are stored in the `.shell_cfg.bash` located in the user home folder. `.bashrc` sources this file.
-* `DS_ID` should correspond to some common user group id for shared access (optional)
-* check `setuser.sh` for more details
+## Opening a new shell
+
+this is for opening mulitple shells in the same container and not messing up the permissions. rwx permissions should work as intended here with the user:group -> user is your user and group is aimages(1004). userid and groupid are set in the docker run command above. as ID and DS_ID respectively.
+
+`docker exec -it $(whoami)-research bash`
+
+## Jupyter lab command
+
+- don't ever ever run a jupyter lab without a password
+
+`jupyter-lab --ip 0.0.0.0 --port 10123 --allow-root`
+
+browse your jupyter on local machine at: localhost:10123
+
+#TODO: buildaj cuda image iz source za tocno onu arhitekturu/cuda compute koja nan triba https://gitlab.com/nvidia/container-images/cuda idk di san to cita
+
+## Tensorboard command
+
+- be mindful of the sizes of your tensorboard experiments, they can grow quite big if you're not careful about your logging frequencies
+  `tensorboard --logdir skala_manje_dugi_exp/ --port 10123 --bind_all`
