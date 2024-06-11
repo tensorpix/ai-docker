@@ -13,7 +13,6 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 	echo "$NAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$NAME
 	chmod 0440 /etc/sudoers.d/$NAME
 	cp /etc/skel/.bashrc /home/$NAME/.bashrc # copy default .bashrc, otherwise .bashrc is empty file
-	echo 'export PS1="\A \[\033[1;36m\]🐳 \h\[\033[00m\]:\[\033[1;34m\]\w\[\033[0;015m\]\\$ \[$(tput sgr0)\]\[\033[0m\]"' >> /home/$NAME/.bashrc
 	chown -R $NAME:$NAME /home/$NAME # change ownership of home directory to the new user
 	
 	# optionally set a common group
