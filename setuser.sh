@@ -12,7 +12,8 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 	adduser $NAME sudo
 	echo "$NAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$NAME
 	chmod 0440 /etc/sudoers.d/$NAME
-
+	chown -R $NAME:$NAME /home/$NAME
+	
 	# optionally set a common group
 	if [[ -v DS_ID ]]; then
 		groupadd --gid $DS_ID "tensorpix"
@@ -37,4 +38,4 @@ fi
 
 # change user
 cd $USER_HOME
-su $NAME
+su $NAME -s /bin/bash
