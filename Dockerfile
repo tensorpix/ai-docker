@@ -47,7 +47,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     rm -rf /var/lib/apt/lists/*
 
 ENV TZ="Europe/Zagreb"
-
+ENV TERM=xterm-256color
 # create user at runtime
 COPY setuser.sh /bin/
 
