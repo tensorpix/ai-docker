@@ -47,13 +47,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     rm -rf /var/lib/apt/lists/*
 
 ENV TZ="Europe/Zagreb"
-
+ENV TERM=xterm-256color
 # create user at runtime
 COPY setuser.sh /bin/
 
 #change entire home folder owner to groupid 1004 - the aimages grp on the train2 workstation - kinda magic number like 
 #but there's no need to run this every time with setuser.sh
-RUN sudo chown -R :1004 /home/ && \
-    echo './bin/setuser.sh' >> ~/.bashrc
+RUN sudo chown -R :1004 /home/
 
 ENTRYPOINT /bin/setuser.sh
