@@ -53,8 +53,6 @@ COPY setuser.sh /bin/
 
 #change entire home folder owner to groupid 1004 - the aimages grp on the train2 workstation - kinda magic number like 
 #but there's no need to run this every time with setuser.sh
-RUN sudo chown -R :1004 /home/ && \
-    chmod +x /bin/setuser.sh && \
-    echo '/bin/setuser.sh' >> ~/.bashrc
+RUN sudo chown -R :1004 /home/
 
 ENTRYPOINT /bin/setuser.sh
