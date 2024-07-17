@@ -52,7 +52,7 @@ ENV TERM=xterm-256color
 COPY setuser.sh /bin/
 
 # change entire home folder owner to groupid 1004 - this number is arbitrary
-# this has to be run only once so the action is specified in this dockerfile instead of setuser.sh
+# this has to be run only once, which is why the action is specified in this dockerfile instead of setuser.sh
 # add setuser.sh to root's bashrc, now the user will automatically be changed from root to $NAME (you)
 
 RUN sudo chown -R :1004 /home/ && \
