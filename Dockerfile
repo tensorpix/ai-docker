@@ -51,8 +51,12 @@ ENV TERM=xterm-256color
 # create user at runtime
 COPY setuser.sh /bin/
 
-#change entire home folder owner to groupid 1004 - the aimages grp on the train2 workstation - kinda magic number like 
-#but there's no need to run this every time with setuser.sh
-RUN sudo chown -R :1004 /home/
+# change entire home folder owner to groupid 1004 - this number is arbitrary
+# this has to be run only once, which is why the action is specified in this dockerfile instead of setuser.sh
+# add setuser.sh to root's bashrc, now the user will automatically be changed from root to $NAME (you)
 
-ENTRYPOINT /bin/setuser.sh
+RUN sudo chown -R :1004 /home/ && \
+    chmod +x /bin/setuser.sh && \
+    echo '/bin/setuser.sh' >> ~/.bashrc
+
+ENTRYPOINT ["/bin/setuser.sh"]
