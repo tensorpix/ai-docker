@@ -81,6 +81,26 @@ this is for opening mulitple shells in the same container and not messing up the
 docker exec -it $(whoami)-research bash
 ```
 
+## Opening Docker container in VSCode
+
+Add the following function in your .bashrc (locally)
+```bash
+function code_uri  {
+    local hex_=$(echo '+{"containerName":"/'$2'","settings":{"host":"ssh://'$1'"}}' | od -A n -t x1 | tr -d '[\n\t ]')
+    local folder_uri="vscode-remote://attached-container%$hex_:$3"
+    echo $folder_uri
+}
+```
+
+Now, you can open a [Dev Container](https://code.visualstudio.com/docs/devcontainers/containers) inside a VSCode with the following command:
+```bash
+code --folder-uri=$(code_uri <HOST> <CONTAINER_NAME> <DIR_IN_CONTAINER>)
+```
+Concrete example:
+```bash
+code --folder-uri=$(code_uri matejc@86.32.124.26:142 matejc-research /home/matejc/code/video-inference-server)
+```
+
 ## Jupyter lab command
 
 > ❗ Don't run a jupyter lab without setting up a password. We don't want to leak experiments and data examples
