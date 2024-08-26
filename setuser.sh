@@ -34,8 +34,8 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 	fi
 	
 	# Add git completion to bashrc
-	lines_to_add='if [ -f /usr/share/bash-completion/bash_completion ]; then
-		. /usr/share/bash-completion/bash_completion
+	lines_to_add='if [ -f /usr/share/bash-completion/completions/git ]; then
+		source /usr/share/bash-completion/completions/git
 	fi'
 	echo "$lines_to_add" >> $USER_HOME/.bashrc
 
