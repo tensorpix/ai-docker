@@ -12,8 +12,8 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 	adduser $NAME sudo
 	echo "$NAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$NAME
 	chmod 0440 /etc/sudoers.d/$NAME
-	cp /etc/skel/.bashrc /home/$NAME/.bashrc # copy default .bashrc, otherwise .bashrc is empty file
-	chown -R $NAME:$NAME /home/$NAME # change ownership of home directory to the new user
+	cp /etc/skel/.bashrc $USER_HOME/.bashrc # copy default .bashrc, otherwise .bashrc is empty file
+	chown -R $NAME:$NAME $USER_HOME # change ownership of home directory to the new user
 	
 	# optionally set a common group
 	if [[ -v DS_ID ]]; then
@@ -32,6 +32,12 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 		echo 'eval "$(pyenv init -)"' >> $USER_HOME/.bashrc
 		echo "Installed pyenv to $PYENV_DIR"
 	fi
+	
+	# Add git completion to bashrc
+	lines_to_add='if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	fi'
+	echo "$lines_to_add" >> $USER_HOME/.bashrc
 
 	# mark first container run
 	touch $CONTAINER_ALREADY_STARTED
