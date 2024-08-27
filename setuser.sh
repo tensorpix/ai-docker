@@ -39,10 +39,10 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 	fi'
 	echo "$lines_to_add" >> $USER_HOME/.bashrc
 
+	# change user
+ 	cd $USER_HOME
 	# mark first container run
 	touch $CONTAINER_ALREADY_STARTED
 fi
 
-# change user
-cd $USER_HOME
 su $NAME -s /bin/bash
