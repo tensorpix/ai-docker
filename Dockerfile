@@ -27,6 +27,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     locales \
     nano \
     htop \
+    psmisc \
     python3-dev \
     python3-distutils \
     python3-venv \
