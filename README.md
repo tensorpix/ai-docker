@@ -1,6 +1,14 @@
 # TensorPix Research Docker
 
-## Connecting to remote machines via ssh
+🏆 Gold standard abstraction:
+- your laptop
+  - remote machine
+    - docker container with limited resources (GPU and RAM)
+      - non-root user inside of the docker (no issues with permissions outside of the container)
+        - a specific pyenv version for the project (`pyenv local 3.10`)
+          - virtual enviroment that uses a specific pyenv version (`venv`) 
+
+## Connecting to remote machines via ssh (laptop -> remote machine)
 
 To connect to the server via ssh and forward the ports for jupyter lab and tensorboard, you can use the following command:
 - port 141 is the port on the server where the ssh is running
@@ -23,7 +31,7 @@ Host komp-ured
     User ivica # change your name to ivica in real life
 ```
 
-## Building the docker image
+## Building the docker image (remote machine)
 
 Position yourself in the root directory whcih contains the Dockerfile and setuser.sh
 
@@ -37,7 +45,7 @@ Run the following command to build the docker image:
 docker build -t research-image .
 ```
 
-## Create a docker container
+## Create a docker container (remote machine)
 
 To run the docker container, you can use the template down bellow. This command does the follownig:
 - forwards the ports `6006` and `10123` which is used for tensorboard and jupyter lab respectively. Of course, someone else might use these ports on the host machine, so you can change them to whatever you want.
@@ -65,7 +73,7 @@ To remove the container, you can use the following command:
 docker stop $USER-research; docker rm $USER-research
 ```
 
-## Attaching to a running container
+## Attaching to a running container (remote machine -> docker container)
 
 If you want to attach to shell of a running container you can use the following command. Note, this won't start a new shell:
 
@@ -73,7 +81,7 @@ If you want to attach to shell of a running container you can use the following 
 docker attach $USER-research
 ```
 
-## Opening a new shell
+## Opening a new shell (remote machine -> docker container)
 
 this is for opening mulitple shells in the same container and not messing up the permissions. rwx permissions should work as intended here with the user:group -> user is your user and group is aimages(1004). userid and groupid are set in the docker run command above. as ID and DS_ID respectively.
 
@@ -81,7 +89,21 @@ this is for opening mulitple shells in the same container and not messing up the
 docker exec -it $(whoami)-research bash
 ```
 
-## Opening Docker container in VSCode
+
+## Preparing python enviroment for development (docker container -> python venv)
+
+Once you are inside of the container, prepare the python enviroment for the development:
+
+```
+pyenv install 3.10              # (1) install specific python version
+cd /home/$USER/my_code          # (2) position at root project dir
+pyenv local 3.10                # (3) activates 3.10 for my_code directory
+python -m venv venv             # (4) creates venv directory
+source venv/bin/activate        # (5) activate venv
+pip install -r requirements.txt # (6) install packages
+```
+
+## Opening Docker container in VSCode (laptop -> remote machine -> docker container -> python env)
 
 Add the following function in your .bashrc (locally)
 ```bash
