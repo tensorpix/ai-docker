@@ -46,6 +46,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+    
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ENV TZ="Europe/Zagreb"
 ENV TERM=xterm-256color
@@ -59,5 +61,6 @@ COPY setuser.sh /bin/
 RUN sudo chown -R :1004 /home/ && \
     chmod +x /bin/setuser.sh && \
     echo '/bin/setuser.sh' >> ~/.bashrc
+
 
 ENTRYPOINT ["/bin/setuser.sh"]
