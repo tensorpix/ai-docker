@@ -1,6 +1,6 @@
 # TensorPix Research Docker
 
-What the hell? You’re still SSHing into remote machines and installing global Python packages like to run your code?! This isn’t 2010, grow up. Encapsulate your projects, work on them without causing people to quit because of dependency collisions, and actually thrive like a civilized human being.
+What the hell? You’re still SSHing into remote machines and installing global Python packages to run your code?! This isn’t 2010, grow up. Encapsulate your projects, work on them without causing people to quit because of dependency collisions, and actually thrive like a civilized human being.
 
 🏆 Gold standard abstraction:
 - your laptop
